@@ -1,0 +1,42 @@
+replicaCount: 2
+
+image:
+  repository: 123456789012.dkr.ecr.us-east-1.amazonaws.com/demo-app
+  tag: latest          # <- overwritten by the CI "Update Image ID" step
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+probes:
+  liveness:
+    path: /actuator/health/liveness
+    initialDelaySeconds: 15
+  readiness:
+    path: /actuator/health/readiness
+    initialDelaySeconds: 5
+
+serviceAccount:
+  create: true
+  name: demo-app-sa
+  # IAM Role for Service Accounts (IRSA) — lets the pod's service account
+  # assume an IAM role, which is what the Secrets Store CSI driver uses
+  # to call Secrets Manager (the red "Pull Secrets" box in the diagram)
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/demo-app-secrets-role
+
+secrets:
+  enabled: true
+  secretProviderClassName: demo-app-secrets
+  awsSecretName: prod/demo-app/config   # name of the secret in AWS Secrets Manager
+  mountPath: /mnt/secrets-store
