@@ -36,13 +36,18 @@ spec:
             initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.secrets.enabled }}
+          {{- if and .Values.secrets.enabled (eq .Values.secrets.mode "k8s") }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secrets.k8sSecretName }}
+          {{- end }}
+          {{- if and .Values.secrets.enabled (eq .Values.secrets.mode "csi") }}
           volumeMounts:
             - name: secrets-store
               mountPath: {{ .Values.secrets.mountPath }}
               readOnly: true
           {{- end }}
-      {{- if .Values.secrets.enabled }}
+      {{- if and .Values.secrets.enabled (eq .Values.secrets.mode "csi") }}
       volumes:
         - name: secrets-store
           csi:

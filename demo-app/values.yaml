@@ -37,6 +37,8 @@ serviceAccount:
 
 secrets:
   enabled: true
+  mode: csi          # csi = AWS Secrets Manager via CSI driver | k8s = plain local Secret
   secretProviderClassName: demo-app-secrets
-  awsSecretName: prod/demo-app/config   # name of the secret in AWS Secrets Manager
+  awsSecretName: prod/demo-app/config   # name of the secret in AWS Secrets Manager (mode: csi)
   mountPath: /mnt/secrets-store
+  k8sSecretName: demo-app-secret        # name of a manually-created Secret (mode: k8s)

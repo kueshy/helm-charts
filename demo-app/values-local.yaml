@@ -1,0 +1,29 @@
+# Override file for local testing — no AWS account required.
+# Deploy with:  helm install demo-app ./demo-app -f values.yaml -f values-local.yaml
+# or point argocd/application-local.yaml at this via helm.valueFiles.
+
+replicaCount: 1   # a local cluster usually has far less CPU/RAM to spare
+
+image:
+  # ghcr.io is free and GitHub Actions can push to it using the built-in
+  # GITHUB_TOKEN — no AWS account, no OIDC role, no IAM policies needed.
+  # Replace <owner> with your GitHub username or org.
+  repository: ghcr.io/<owner>/demo-app
+  pullPolicy: Always
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+
+serviceAccount:
+  create: true
+  annotations: {}   # no IRSA locally — nothing to assume, no cloud IAM involved
+
+secrets:
+  enabled: true
+  mode: k8s                       # plain Kubernetes Secret instead of Secrets Manager
+  k8sSecretName: demo-app-secret  # you create this by hand — see k8s/local-secret.yaml
