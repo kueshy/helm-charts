@@ -1,15 +1,12 @@
 replicaCount: 2
-
 image:
   repository: 123456789012.dkr.ecr.us-east-1.amazonaws.com/demo-app
-  tag: latest          # <- overwritten by the CI "Update Image ID" step
+  tag: 678ef22 # <- overwritten by the CI "Update Image ID" step
   pullPolicy: IfNotPresent
-
 service:
   type: ClusterIP
   port: 80
   targetPort: 8080
-
 resources:
   requests:
     cpu: 100m
@@ -17,7 +14,6 @@ resources:
   limits:
     cpu: 500m
     memory: 512Mi
-
 probes:
   liveness:
     path: /actuator/health/liveness
@@ -25,7 +21,6 @@ probes:
   readiness:
     path: /actuator/health/readiness
     initialDelaySeconds: 5
-
 serviceAccount:
   create: true
   name: demo-app-sa
@@ -34,11 +29,10 @@ serviceAccount:
   # to call Secrets Manager (the red "Pull Secrets" box in the diagram)
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/demo-app-secrets-role
-
 secrets:
   enabled: true
-  mode: csi          # csi = AWS Secrets Manager via CSI driver | k8s = plain local Secret
+  mode: csi # csi = AWS Secrets Manager via CSI driver | k8s = plain local Secret
   secretProviderClassName: demo-app-secrets
-  awsSecretName: prod/demo-app/config   # name of the secret in AWS Secrets Manager (mode: csi)
+  awsSecretName: prod/demo-app/config # name of the secret in AWS Secrets Manager (mode: csi)
   mountPath: /mnt/secrets-store
-  k8sSecretName: demo-app-secret        # name of a manually-created Secret (mode: k8s)
+  k8sSecretName: demo-app-secret # name of a manually-created Secret (mode: k8s)
