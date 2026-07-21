@@ -8,7 +8,7 @@ image:
   # ghcr.io is free and GitHub Actions can push to it using the built-in
   # GITHUB_TOKEN — no AWS account, no OIDC role, no IAM policies needed.
   # Replace <owner> with your GitHub username or org.
-  repository: ghcr.io/<owner>/demo-app
+  repository: ghcr.io/kueshy/demo-app
   pullPolicy: Always
 
 resources:
