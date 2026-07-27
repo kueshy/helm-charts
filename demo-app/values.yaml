@@ -1,7 +1,7 @@
 replicaCount: 2
 image:
   repository: 123456789012.dkr.ecr.us-east-1.amazonaws.com/demo-app
-  tag: 5b113a7 # <- overwritten by the CI "Update Image ID" step
+  tag: bdc197d # <- overwritten by the CI "Update Image ID" step
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
