@@ -6,9 +6,9 @@ replicaCount: 1   # a local cluster usually has far less CPU/RAM to spare
 
 image:
   # ghcr.io is free and GitHub Actions can push to it using the built-in
-  # GITHUB_TOKEN — no AWS account, no OIDC role, no IAM policies needed.
+  # GITHUB_TOKEN — no AWS account, no OIDC role, no IAM policies needed. #ghcr.io/kueshy/demo-app
   # Replace <owner> with your GitHub username or org.
-  repository: ghcr.io/kueshy/demo-app
+  repository: ghcr.io/kueshy/sacco-management-system
   pullPolicy: Always
 
 resources:
