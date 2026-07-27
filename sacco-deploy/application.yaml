@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sacco-management-system
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kueshy/helm-charts.git
+    targetRevision: main
+    path: demo-app          # <- must match ci-cd.yaml's `cd helm-charts/demo-app`
+    helm:
+      releaseName: sacco-management-system
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: sacco-management-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

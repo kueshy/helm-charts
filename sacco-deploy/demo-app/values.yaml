@@ -1,0 +1,33 @@
+replicaCount: 1
+
+image:
+  # Must match exactly what ci-cd.yaml builds and pushes:
+  #   ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+  # Your workflow has IMAGE_NAME: sacco-management-system and your GitHub
+  # owner is kueshy (from HELM_REPO: kueshy/helm-charts) — so this is:
+  repository: ghcr.io/kueshy/sacco-management-system
+  tag: latest          # overwritten automatically by the "Update Helm Chart" CI job
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080     # change this if your app listens on a different port
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# No liveness/readiness path configured on purpose — see the note in
+# deployment.yaml. Wire these up once you confirm what port and health
+# path (if any) your app actually exposes; until then, a startupProbe
+# alone (TCP-based) avoids the premature-kill issue we hit with the
+# other app's probes.
+probes:
+  startup:
+    periodSeconds: 5
+    failureThreshold: 30   # 150s allowed to start before anything else checks
