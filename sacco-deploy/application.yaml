@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/kueshy/helm-charts.git
     targetRevision: main
-    path: demo-app          # <- must match ci-cd.yaml's `cd helm-charts/demo-app`
+    path: sacco-app          # <- must match ci-cd.yaml's `cd helm-charts/demo-app`
     helm:
       releaseName: sacco-management-system
       valueFiles:
