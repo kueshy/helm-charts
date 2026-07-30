@@ -22,7 +22,7 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://sacco-postgres-postgresql.sacco-management-system.svc.cluster.local:5432/saccodb"
+              value: "jdbc:postgresql://sacco-postgres-postgresql.sacco-management-system.svc.cluster.local:5432/sacco_db"
             - name: SPRING_DATASOURCE_USERNAME
               value: "sacco"
             - name: SPRING_DATASOURCE_PASSWORD
