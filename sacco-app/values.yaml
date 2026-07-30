@@ -26,4 +26,4 @@ resources:
 probes:
   startup:
     periodSeconds: 5
-    failureThreshold: 30 # 150s allowed to start before anything else checks
+    failureThreshold: 60 # 150s allowed to start before anything else checks
