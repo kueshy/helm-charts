@@ -22,11 +22,16 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://sacco-postgres-postgresql.sacco-management-system.svc.cluster.local:5432/sacco_db"
+              value: "jdbc:postgresql://sacco-postgres-postgresql.sacco-management-system.svc.cluster.local:5432/saccodb"
             - name: SPRING_DATASOURCE_USERNAME
               value: "sacco"
             - name: SPRING_DATASOURCE_PASSWORD
               value: "sacco"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "sacco-kafka.sacco-management-system.svc.cluster.local:9092"
+            # Only needed if your app connects to Zookeeper directly
+            # (e.g. via Curator) rather than only through the Kafka client.
+            # Modern spring-kafka usually only needs the line above.
           # TCP-based, not HTTP-based: this only checks "is something
           # listening on the port yet," with no dependency on knowing an
           # actual health-check path. Safe default until you confirm
