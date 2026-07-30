@@ -5,7 +5,7 @@ image:
   # Your workflow has IMAGE_NAME: sacco-management-system and your GitHub
   # owner is kueshy (from HELM_REPO: kueshy/helm-charts) — so this is:
   repository: ghcr.io/kueshy/sacco-management-system
-  tag: 199128e # overwritten automatically by the "Update Helm Chart" CI job
+  tag: 6356b69 # overwritten automatically by the "Update Helm Chart" CI job
   pullPolicy: Always
 service:
   type: ClusterIP
