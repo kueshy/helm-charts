@@ -10,7 +10,7 @@ image:
 service:
   type: ClusterIP
   port: 80
-  targetPort: 8080 # change this if your app listens on a different port
+  targetPort: 8880 # change this if your app listens on a different port
 resources:
   requests:
     cpu: 100m
